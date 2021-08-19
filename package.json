@@ -1,5 +1,5 @@
 {
-  "name": "cli-the-maze",
+  "name": "the-maze-trick",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kit486759/CLI-app-the-maze.git"
+    "url": "git+https://github.com/Kit486759/the-maze-trick.git"
   },
   "author": "Kit So",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Kit486759/CLI-app-the-maze/issues"
+    "url": "https://github.com/Kit486759/the-maze-trick/issues"
   },
-  "homepage": "https://github.com/Kit486759/CLI-app-the-maze#readme"
+  "homepage": "https://github.com/Kit486759/the-maze-trick#readme"
 }
