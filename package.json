@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node app.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Kit486759/the-maze-trick/issues"
   },
-  "homepage": "https://github.com/Kit486759/the-maze-trick#readme"
+  "homepage": "https://github.com/Kit486759/the-maze-trick#readme",
+  "dependencies": {
+    "prompts": "^2.4.1"
+  }
 }
