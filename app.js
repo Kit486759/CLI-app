@@ -1,30 +1,107 @@
-const process = require('process')
-const readline = require('readline').createInterface({
+const process = require('process');
+const readline = require('readline');
+const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-const os = require('os')
+const figlet = require('figlet');
+
+const ascii = require('./ascii')
+
+const chalk = require('chalk');
+
+const cliSelect = require('cli-select');
+
+// const { resolve } = require('path');
+const os = require('os');
 const memory = Math.round(os.freemem() / 1024 / 1024)
 const totMemory = Math.round(os.totalmem() / 1024 / 1024)
 
+const dGreen = (text) => {
+    return chalk.bold.rgb(0, 143, 17)(text)
+}
 
-const dialogAnonymous = {
-    a1: `Wake up, Neo..... [a: Wake up. / b: Stay down.]`,
-    b1: `(Loud alarm sound from your computer....) [a: Wake up.]`,
-    a2: `Have you ever think about our world is not real? [a: Yes. But who are you? / b: No, leave me alone.]`,
-    a3: `It's doesn't matter, I am the one to help you out. [a: I don't trust you. / b: Haha, out? From what?]`,
-    a4: `I know everything of you.
+const qStyle = (text) => {
+    // return chalk.bold.rgb(0, 143, 17)(text)
+    return chalk.bold.rgb(0, 255, 65)(text)
+}
+
+const aStyle = (text) => {
+    return chalk.rgb(236, 46, 51)(text)
+}
+
+const bStyle = (text) => {
+    return chalk.rgb(58, 82, 201)(text)
+}
+
+const dialog = {
+    q1: `Anonymous: Wake up, `,
+    a1: `a: Wake up.`, b1: `b: Stay down.`,
+    q2: `(Loud alarm sound from your computer....)`,
+    q3: `Have you ever think about our world is not real?`,
+    a3: `a: Yes. But who are you?`, b3: `b: No, leave me alone.`,
+    q4: `Doesn't matter, I am the one to help you out.`,
+    a4: `a: I don't trust you.`, b4: `b: Haha, out? From what?`,
+    q5: `I know everything of you.
+(Text shows up from monitor)
 User id ${os.hostname()}
 Windows version ${os.release()} ${os.platform()} ${os.arch()}
 CPU core(s):${os.cpus().length}
-Memory ${memory}/${totMemory}(Mb)
-[a: Ok, go on. / b: Shut up Hacker!]`,
-    b4: `You are living in a giant simulator created by the machine. [a: Prove it. / b: You are out of your mind. Bye!]`,
-    a5: `Follow the rabbit...Good luck - Anonymous disconnected [a: Checkout the door. / b: Stay.]`,
-    a6: `Anonymous disconnected  (Someone knocking the door....) [a: Checkout the door. / b: Stay.]`,
-    a7: `(Someone knocking the door....) [a: Checkout the door. / b: Stay.]`
+Memory ${memory}/${totMemory}(Mb)`,
+    a5: `a: Ok, go on.`, b5: `b: Shut up Hacker!`,
+    q6: `The world you live is a giant simulator.`,
+    a6: `a: Prove it.`, b6: `b: You are out of your mind. Bye!`,
+    q7: `Someone coming to you, get out there now - Anonymous disconnected`,
+    a7: `a: Checkout the door.`, b7: `b: Stay.`,
+    q8: `Anonymous disconnected  (Someone knocking the door....)`,
+    q9: `(Someone knocking the door....) [a: Checkout the door. / b: Stay.]`,
+    q10: `Anonymous: What are you talking about?`
 }
+
+const ending = {
+    a1: 'You slept and start a new day... its just normal a dream of your real life...'
+}
+
+const toBeContinue = () => {
+    console.log(ending.a1)
+    figlet(`To be continue`,
+        {
+            font: 'Nancyj',
+        },
+        function (err, data) {
+            if (err) {
+                console.log('Something went wrong...');
+                console.dir(err);
+                return;
+            }
+            console.log(bStyle(data))
+        });
+    process.exit()
+}
+
+const gameOver = (end) => {
+    if (end === "endingB") {
+        console.log(ending.a1)
+    }else{
+        console.log(`ending b`)
+    }
+
+    figlet(`GAME OVER`,
+        {
+            font: 'Nancyj',
+        },
+        function (err, data) {
+            if (err) {
+                console.log('Something went wrong...');
+                console.dir(err);
+                return;
+            }
+            console.log(bStyle(data))
+        });
+    process.exit()
+}
+
 
 const end = () => {
     console.log(`(Neo walks toward the door....)`)
@@ -33,172 +110,154 @@ const end = () => {
     process.exit()
 }
 
-const a7 = () => {
-    readline.question(`Anonymous: ${dialogAnonymous.a7}`, (answer) => {
-        if (answer === `a`) {
+const q9 = () => {
+    rl.question(`${qStyle(dialog.q9)}\n[ ${aStyle(dialog.a7)} / ${bStyle(dialog.b7)} ]`, (answer) => {
+        if (answer.trim() === `a`) {
+            end(`endingB`)
+        } else if (answer.trim() === `b`) {
+            q9()
+        } else {
+            q9()
+        }
+    })
+}
+
+const q8 = () => {
+    rl.question(`${qStyle(dialog.q8)}\n[ ${aStyle(dialog.a7)} / ${bStyle(dialog.b7)} ]`, (answer) => {
+        if (answer.trim() === `a`) {
             end()
-        } else if (answer === `b`) {
-            a7()
+        } else if (answer.trim() === `b`) {
+            q9()
         } else {
-            a7()
+            q8()
         }
     })
 }
 
-const a5 = () => {
-    readline.question(`Anonymous: ${dialogAnonymous.a5}`, (answer) => {
-        if (answer === `a`) {
+const q7 = () => {
+    rl.question(`${qStyle(dialog.q7)}\n[ ${aStyle(dialog.a7)} / ${bStyle(dialog.b7)} ]`, (answer) => {
+        if (answer.trim() === `a`) {
             end()
-        } else if (answer === `b`) {
-            a7()
+        } else if (answer.trim() === `b`) {
+            q9()
         } else {
-            a5()
+            q7()
         }
     })
 }
 
-const a6 = () => {
-    readline.question(`Anonymous: ${dialogAnonymous.a6}`, (answer) => {
-        if (answer === `a`) {
-            end()
-        } else if (answer === `b`) {
-            a7()
+const q6 = () => {
+    console.log(dGreen(ascii.city))
+    rl.question(`${qStyle(dialog.q6)}\n[ ${aStyle(dialog.a6)} / ${bStyle(dialog.b6)} ]`, (answer) => {
+        if (answer.trim() === `a`) {
+            q7()
+        } else if (answer.trim() === `b`) {
+            q8()
         } else {
-            a6()
+            q6()
         }
     })
 }
 
-const b4 = () => {
-    readline.question(`Anonymous: ${dialogAnonymous.b4}`, (answer) => {
-        if (answer === `a`) {
-            a5()
-        } else if (answer === `b`) {
-            a6()
+const q5 = () => {
+    rl.question(`${qStyle(dialog.q5)}\n[ ${aStyle(dialog.a5)} / ${bStyle(dialog.b5)} ]`, (answer) => {
+        if (answer.trim() === `a`) {
+            q6()
+        }
+        else if (answer.trim() === `b`) {
+            q8()
         } else {
-            b4()
+            q5()
         }
     })
 }
 
-const a4 = () => {
-    readline.question(`Anonymous: ${dialogAnonymous.a4}`, (answer) => {
-        if (answer === `a`) {
-            a5()
-        }
-        else if (answer === `b`) {
-            b4()
+const q4 = () => {
+    rl.question(`${qStyle(dialog.q4)}\n[ ${aStyle(dialog.a4)} / ${bStyle(dialog.b4)} ]`, (answer) => {
+        if (answer.trim() === `a`) {
+            q5()
+        } else if (answer.trim() === `b`) {
+            q6()
         } else {
-            a4()
+            q4()
         }
     })
 }
 
-const a3 = () => {
-    readline.question(`Anonymous: ${dialogAnonymous.a3}`, (answer) => {
-        if (answer === `a`) {
-            a4()
-        } else if (answer === `b`) {
-            b4()
+const q3 = () => {
+    rl.question(`${qStyle(dialog.q3)}\n[ ${aStyle(dialog.a3)} / ${bStyle(dialog.b3)} ]`, (answer) => {
+        if (answer.trim() === `a`) {
+            q4()
+        } else if (answer.trim() === `b`) {
+            console.log(`gameover`)
         } else {
-            a3()
+            q3()
         }
     })
 }
 
-const a2 = () => {
-    readline.question(`Anonymous: ${dialogAnonymous.a2}`, (answer) => {
-        if (answer === `a`) {
-            a3()
-        } else if (answer === `b`) {
-            a4()
+const q2 = () => {
+    rl.question(`${dialog.q2}\n[ ${aStyle(dialog.a1)} / ${bStyle(dialog.b1)} ]`, (answer) => {
+        if (answer.trim() === `a`) {
+            q3()
+        } else if (answer.trim() === `b`) {
+            gameOver('endingB')
         } else {
-            a2()
+            // console.log(`${qStyle(dialog.q10)}`)
+            q2()
         }
     })
 }
 
-const b1 = () => {
-    readline.question(`Anonymous: ${dialogAnonymous.b1}`, (answer) => {
-        if (answer === `a`) {
-            a2()
+const q1 = (name) => {
+    console.log(dGreen(ascii.computer))
+    rl.question(`${qStyle(dialog.q1 + name + `...`)}\n[ ${aStyle(dialog.a1)} / ${bStyle(dialog.b1)} ]`, (answer) => {
+        if (answer.trim() === `a`) {
+            q3()
+        } else if (answer.trim() === `b`) {
+            q2()
         } else {
-            b1()
+            // console.log(`${qStyle(dialog.q10)}`)
+            q1()
         }
     })
 }
 
-const start = () => {
-    readline.question(`Anonymous: ${dialogAnonymous.a1}`, (answer) => {
+const title = () => {
 
-        if (answer === `a`) {
-            a2()
-        } else if (answer === `b`) {
-            b1()
-        } else {
-            console.log('Anonymous: What are you talking about?')
-            start()
-        }
+    return new Promise((resolve, reject) => {
+        figlet.text('THE MAZE TRICK',
+            {
+                font: 'Nancyj',
+                // font:'the edge',
+                horizontalLayout: 'fitter',
+                // verticalLayout:'full',
+                // width: 500
+            },
+            function (err, data) {
+                if (err) {
+                    console.log('Something went wrong...');
+                    console.dir(err);
+                    return;
+                }
+                console.log(qStyle(data))
+                resolve()
+            });
+
     })
+
 }
 
-start()
+
+const init = async () => {
+    await title()
+    rl.question(`What is your name?`, (name) => {
+        q1(name)
+    })
+
+}
+
+init()
 
 
-
-// var anonymous = process.argv[2]
-// var neo = process.argv[3]
-// anonymous = "Wake up, Neo..... ('A: Wake up. / B: Stay down.')"
-
-// process.stdin.resume();
-// if (process.argv.length != 4) {
-//     console.log("who are you????")
-// } else {
-//     reply = process.argv[3]
-// }
-
-// console.log(process.config)
-
-// console.log(anonymous)
-// console.log('A: Wake up. / B: Stay down.')
-
-// if(neo === "A"){
-//     anonymous = "Good, have you ever think about our world is not real?"
-//     console.log(`sdfdsf`)
-// }
-
-
-// process.on('beforeExit', (code) => {
-//     console.log('Process beforeExit event with code: ', code);
-//   });
-
-//   process.on('exit', (code) => {
-//     console.log('Process exit event with code: ', code);
-//   });
-
-//   console.log('This message is displayed first.');
-
-// const rl = readline.createInterface({
-//     input: process.stdin,
-//     output: process.stdout
-// });
-
-
-// const rl2 = readline.createInterface({
-//     input: process.stdin,
-//     output: process.stdout
-// });
-
-// rl.question('Wake up, Neo..... (A: wake up. / B: stay down.)', (answer) => {
-//     if (answer === "A") {
-//         rl2.question(`Good, have you ever think about our world is not real? (A: Yes. / B: No.)`, (answer) => {
-//             if (answer === "A") {
-//                 console.log(`welcome`)
-//             }
-//         })
-//     }
-
-
-//       rl.close();
-// });
 
