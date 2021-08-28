@@ -1,5 +1,9 @@
 # THE MAZE TRICK - CLI dialog rpg
 
+<p align="center">
+  <img src="/demo.gif" alt="demoGif" height=500 /><br>
+</p>
+
 ## To Start
 In the project directory, you can run:
 
