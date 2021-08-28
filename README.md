@@ -11,5 +11,5 @@ Then you can start
 
 ### Tools
 chalk - (https://www.npmjs.com/package/chalk#256-and-truecolor-color-support)
-br
+<br/>
 figlet - (https://www.npmjs.com/package/figlet)
