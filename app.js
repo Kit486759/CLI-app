@@ -141,7 +141,7 @@ const q14 = () => {
 const q13 = () => {
     rl.question(`${dialog.q13}\n[ ${aStyle(dialog.a13)} / ${bStyle(dialog.b13)} ]`, (answer) => {
         if (answer.trim() === `a`) {
-            q18
+            q18()
         } else if (answer.trim() === `b`) {
             q14()
         } else { q13() }
