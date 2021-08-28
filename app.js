@@ -185,7 +185,7 @@ const q9 = () => {
         if (answer.trim() === `a`) {
             q12()
         } else if (answer.trim() === `b`) {
-            q9()
+            q13()
         } else { q9() }
     })
 }
@@ -327,9 +327,8 @@ const init = async () => {
     // Require player name
     rl.question(`What is your name?`, (name) => {
         if (name) {
-            q1(name.trim())
+            return q1(name.trim())
         }
-
         // Create a instant prompt in next line to ensure correct input
         rl.setPrompt('Please enter your name\n');
         // Activate prompt
