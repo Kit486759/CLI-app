@@ -1,7 +1,7 @@
 # THE MAZE TRICK - CLI dialog rpg
 
 <p align="center">
-  <img src="/demo.gif" alt="demoGif" height=500 /><br>
+  <img src="/demo.gif" alt="demoGif" height=300 /><br>
 </p>
 
 ## To Start
